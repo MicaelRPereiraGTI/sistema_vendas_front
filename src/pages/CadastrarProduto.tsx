@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const CadastrarProduto = () => {
   const [codigo, setCodigo] = useState('');
   const [nome, setNome] = useState('');
   const [preco, setPreco] = useState('');
   const [quantidadeEstoque, setQuantidadeEstoque] = useState('');
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,7 +30,6 @@ const CadastrarProduto = () => {
 
       if (response.ok) {
         alert('Produto cadastrado com sucesso!');
-        // Limpa os campos após sucesso
         setCodigo('');
         setNome('');
         setPreco('');
@@ -35,6 +37,7 @@ const CadastrarProduto = () => {
       } else {
         alert('Erro ao cadastrar produto');
       }
+      navigate('/produtos');
     } catch (error) {
       console.error('Erro ao cadastrar produto:', error);
       alert('Erro na requisição');
