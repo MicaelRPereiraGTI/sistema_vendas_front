@@ -18,18 +18,32 @@ function ListaProdutos() {
 			.catch(error => console.error('Erro ao buscar produtos:', error));
 	}, []);
 
+	function handleDelete(id: number) {
+		const confirmacao = window.confirm('Tem certeza que deseja excluir este produto?');
+		if (!confirmacao) return;
+
+		fetch(`http://localhost:8080/produtos/${id}`, {
+			method: 'DELETE',
+		})
+			.then(() => {
+			alert('Produto excluído com sucesso!');
+			// Atualiza a lista removendo o produto excluído
+			setProdutos(produtos.filter(p => p.id !== id));
+			})
+			.catch(() => alert('Erro ao excluir produto.'));
+		}
+
 	return (
 		<div>
 			<h1>Lista de Produtos</h1>
 			<ul>
         {produtos.map(produto => (
-          <li key={produto.id}>
-            {produto.codigo} - {produto.nome} - R$ {produto.preco.toFixed(2)}
-            {' '}
-            <Link to={`/produtos/editar/${produto.id}`}>
-              <button>Editar</button>
-            </Link>
-          </li>
+			<li key={produto.id}>
+			{produto.codigo} - {produto.nome} - R$ {produto.preco}
+			<button onClick={() => handleDelete(produto.id)} style={{ marginLeft: '10px', color: 'red' }}>
+				Excluir
+			</button>
+			</li>
         ))}
       </ul>
 	</div>
