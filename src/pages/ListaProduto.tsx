@@ -27,7 +27,6 @@ function ListaProdutos() {
 		})
 			.then(() => {
 			alert('Produto excluído com sucesso!');
-			// Atualiza a lista removendo o produto excluído
 			setProdutos(produtos.filter(p => p.id !== id));
 			})
 			.catch(() => alert('Erro ao excluir produto.'));
@@ -37,15 +36,19 @@ function ListaProdutos() {
 		<div>
 			<h1>Lista de Produtos</h1>
 			<ul>
-        {produtos.map(produto => (
+				{produtos.map(produto => (
 			<li key={produto.id}>
 			{produto.codigo} - {produto.nome} - R$ {produto.preco}
 			<button onClick={() => handleDelete(produto.id)} style={{ marginLeft: '10px', color: 'red' }}>
 				Excluir
 			</button>
+			<Link to={`/produtos/${produto.id}`} style={{ marginLeft: '10px' }}>
+				Detalhes
+			</Link>
 			</li>
-        ))}
-      </ul>
+
+				))}
+				</ul>
 	</div>
 	);
 }
